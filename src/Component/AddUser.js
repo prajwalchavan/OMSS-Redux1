@@ -17,7 +17,7 @@ class AddUser extends Component {
   componentDidMount() {
     this.props.clearState();
   }
-  
+
   add(e) {
     e.preventDefault();
     let newUser = {
@@ -29,7 +29,7 @@ class AddUser extends Component {
       mobileNo: this.mobileNo.current.value,
       address: this.address.current.value,
     };
-    console.log(newUser)
+    console.log(newUser);
     this.props.onAddUser(newUser);
   }
 
@@ -160,7 +160,6 @@ class AddUser extends Component {
 
         <br></br>
         <br></br>
-
       </div>
     );
   }
@@ -168,9 +167,9 @@ class AddUser extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      usersList:state.usersList,
-  }
-}
+    usersList: state.usersList,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

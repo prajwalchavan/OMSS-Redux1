@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreated from '../actions/actions'
 
-class ViewProducts extends Component {
+class DisplayProducts extends Component {
     componentDidMount() {
         this.props.onGetProducts()
     }
@@ -64,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewProducts)
+export default connect(mapStateToProps, mapDispatchToProps)(DisplayProducts)
