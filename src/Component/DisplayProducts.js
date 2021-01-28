@@ -1,67 +1,73 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actionCreated from '../actions/actions'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getAllProducts } from "../actions/actions";
+import PropTypes from 'prop-types';
+import med from '../images/med.jpg';
 
 class DisplayProducts extends Component {
-    componentDidMount() {
-        this.props.onGetProducts()
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      productsList: [],
+    };
+    props.getAllProducts();
+  }
 
-    render() {
-       let productsList=this.props.productsList.map((product)=>{
-            return(
-                <tr key={product.productId}>
-                    <th>{product.productId}</th>
-                    <td>{product.productName}</td>
-                    <td>{product.category}</td>
-                    <td>{product.quantity}</td>
-                    <td>{product.price}</td>
-                </tr>
-            )
-        })
-        return (
-             <div>
-                    <div className="trn-table-div">
-                        <h2>{this.props.returnedMessage}</h2>
-                        <table className="table table-info trn-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">product ID</th>
-                                    <th scope="col">product Name</th>
-                                    <th scope="col">product Category</th>
-                                    <th scope="col">product Quantity</th>
-                                    <th scope="col">product Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {productsList}
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
-        )
+  static getDerivedStateFromProps(props, state) {
+    if (props.states.productsList !== state.productsList) {
+      return { productsList: props.states.productsList };
     }
+    return null;
+  }
+
+  productList = () => {
+    if (this.state.productsList !== undefined) {
+      return this.state.productsList.map((element) => (
+        <tr key={element.productId}>
+          <td><b>{element.productId}</b></td>
+          <td><b>{element.productName}</b></td>
+          <td><b>{element.category}</b></td>
+          <td><b>{element.quantity}</b></td>
+          <td><b>{element.price}</b></td>
+        </tr>
+      ));
+    }
+  };
+  render() {
+    return (
+      <body   style={{ backgroundImage:`url(${med})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', height: '1000px'}}>
+        <div>
+        <div class="container-md">
+          <h2>{this.props.returnedMessage}</h2>
+          <center><h2>PRODUCTS</h2></center>
+          <table class="table table-bordered table-hover">
+            <thead  class="thead-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col"> Name</th>
+                <th scope="col"> Category</th>
+                <th scope="col"> Quantity</th>
+                <th scope="col"> Price</th>
+              </tr>
+            </thead>
+            <tbody>{this.productList()}</tbody>
+          </table>
+        </div>
+      </div>
+      </body>
+    );
+  }
+}
+
+DisplayProducts.propTypes={
+    getAllProducts: PropTypes.func.isRequired,
+    states : PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
-    return {
-        productsList:state.productsList,
-    }
-}
+  return {
+    states: state.states,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onGetProducts: () => {
-          return  dispatch(actionCreated.getAllProducts())
-        },
-        clearState: () => {
-          return  dispatch(actionCreated.clearState())
-
-        }
-
-    }
-
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(DisplayProducts)
+export default connect(mapStateToProps, { getAllProducts })(DisplayProducts);
